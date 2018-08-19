@@ -17,18 +17,14 @@ public class GameWindow extends JFrame {
        this.addKeyListener(new KeyAdapter() {
            @Override
            public void keyTyped(KeyEvent e) {
-               canvas.keyPressed(e);
+               canvas.inputManager.keyPressed(e);
            }
 
            @Override
            public void keyPressed(KeyEvent  e  ) {
-                canvas.keyPressed(e);
+                canvas.inputManager.keyReleased(e);
            }
 
-           @Override
-           public void keyReleased(KeyEvent e) {
-               canvas.keyReleased(e);
-           }
        });
         this.setSize(600, 800);
         this.setResizable(false);
@@ -37,14 +33,17 @@ public class GameWindow extends JFrame {
         // Setup canvas
         canvas = new GameCanvas();
         this.setContentPane(canvas);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
-    long lastTimeRender = 0;
+
 
     void mainLoop(){
+        long lastTimeRender = 0;
+        long currentTime;
         while (true){
-            long currentTime = System.nanoTime();
+             currentTime = System.nanoTime();
             if (currentTime - lastTimeRender >= 17_000_000){
                 canvas.run ();
                 canvas.render();
