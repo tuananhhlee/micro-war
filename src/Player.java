@@ -23,6 +23,7 @@ public class Player {
 
     void run(ArrayList<PlayerBullet> bullets){
         this.bullets = bullets;
+        inputManager= new InputManager();
         if (inputManager.rightPressed) {
             this.x += 5;
         }
