@@ -20,17 +20,29 @@ public class GameCanvas extends JPanel {
 
     BufferedImage backBuffer;
     Graphics backbufferGraphics;
+    int enemySpawnCount;
 
     public GameCanvas() {
         bullets = new ArrayList<>();
         enemies = new ArrayList<>();
         random = new Random();
-        player = new Player(300, 400);
+        player = new Player(268, 600);
         inputManager = new InputManager();
+        player.inputManager = inputManager;
 
         background = ImageUtil.load("images/background/background.png");
         backBuffer = new BufferedImage(600, 800, BufferedImage.TYPE_INT_ARGB);
         backbufferGraphics = backBuffer.getGraphics();
+
+        PlayerBullet b1 = new PlayerBullet(300,700);
+        PlayerBullet b2 = new PlayerBullet(300,600);
+        bullets.add(b1);
+        bullets.add(b2);
+
+        PlayerEnemy e1 = new PlayerEnemy(200,0);
+        PlayerEnemy e2 = new PlayerEnemy(300,600);
+        enemies.add(e1);
+        enemies.add(e2);
     }
 
     @Override
@@ -41,51 +53,33 @@ public class GameCanvas extends JPanel {
 
     void run() {
         player.run(bullets);
-
-
+        for (PlayerBullet b : bullets) {
+            b.run();
+        }
         for (PlayerEnemy e : enemies){
             e.run();
         }
         // hiện enemy
-        counte++;
-        if (counte >= 60) {
-            counte = 0;
+        enemySpawnCount++;
+        if (enemySpawnCount >= 60) {
+            enemySpawnCount = 0;
             PlayerEnemy enemy = new PlayerEnemy(random.nextInt(600) ,10);
             enemies.add(enemy);
         }
 
-        /*if (inputManager.xPressed && shootLock == false) {
-            PlayerBullet newB = new PlayerBullet(player.x, player.y);
-            bullets.add(newB);
-            shootLock = true;
-            }
-            if(shootLock){
-                count++;
-                if(count > 30){
-                    shootLock = false;
-                    count = 0;
-                }
-            }*/
         }
-
-        /*boolean shootLock = false;
-        int count;*/
-        boolean enemyLock = false;
-        int counte;
 
         void render () {
             backbufferGraphics.drawImage(background, 0, 0, null);
-            //backbufferGraphics.drawImage(playerX, x, playerY, null);
+
             player.render(backbufferGraphics);
 
             for (PlayerBullet b : bullets) {
                 b.render(backbufferGraphics);
-               // backbufferGraphics.drawImage(b.image, b.x, b.y, null);
             }
 
             for (PlayerEnemy e:enemies){
                 e.render(backbufferGraphics);
-                //backbufferGraphics.drawImage(e.image, e.x, e.y, null);
             }
             this.repaint();
         }

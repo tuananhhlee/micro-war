@@ -1,5 +1,8 @@
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 
 public class GameWindow extends JFrame {
 
@@ -15,14 +18,14 @@ public class GameWindow extends JFrame {
            }
        });
        this.addKeyListener(new KeyAdapter() {
-           @Override
-           public void keyTyped(KeyEvent e) {
-               canvas.inputManager.keyPressed(e);
-           }
 
            @Override
            public void keyPressed(KeyEvent  e  ) {
-                canvas.inputManager.keyReleased(e);
+               canvas.inputManager.keyPressed(e);
+           }
+           @Override
+           public void keyReleased(KeyEvent  e  ) {
+               canvas.inputManager.keyReleased(e);
            }
 
        });

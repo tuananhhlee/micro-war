@@ -36,9 +36,7 @@ public class Player {
         if (inputManager.upPressed) {
             this.y -= 5;
         }
-        for (PlayerBullet b : bullets) {
-            b.run();
-        }
+
         if (inputManager.xPressed && shootLock == false) {
             PlayerBullet newB = new PlayerBullet(this.x, this.y);
             bullets.add(newB);
