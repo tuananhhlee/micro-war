@@ -2,52 +2,50 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
-    int x;
-    int y;
+    Vector2D position;
     Image image;
     InputManager inputManager;
     ArrayList<PlayerBullet> bullets;
-    boolean shootLock = false;
-    int count;
+    private boolean shootLock;
 
 
-    public  Player(int x, int y){
-        this.x = x;
-        this.y=y;
+    public Player(int x, int y) {
+        this.position = new Vector2D(x,y);
         this.image = ImageUtil.load("images/player/MB-69/player1.png");
     }
 
-    void render(Graphics g){
-        g.drawImage(this.image,this.x, this.y, null);
+    void render(Graphics g) {
+        g.drawImage(this.image, (int)this.position.x, (int)this.position.y, null);
     }
 
-    void run(ArrayList<PlayerBullet> bullets){
-        this.bullets = bullets;
-        inputManager= new InputManager();
+
+    void run() {
+        this.move();
+        this.shoot();
+    }
+
+    private void move() {
+        Vector2D velocity = new Vector2D();
         if (inputManager.rightPressed) {
-            this.x += 5;
+            velocity.x +=5;
         }
         if (inputManager.leftPressed) {
-            this.x -= 5;
+            velocity.x -=5;
         }
         if (inputManager.downPressed) {
-            this.y += 5;
+            velocity.y += 5;
         }
         if (inputManager.upPressed) {
-            this.y -= 5;
+            velocity.y -= 5;
         }
+        this.position.addUp(velocity);
+    }
 
-        if (inputManager.xPressed && shootLock == false) {
-            PlayerBullet newB = new PlayerBullet(this.x, this.y);
-            bullets.add(newB);
-            shootLock = true;
-            }
-            if(shootLock){
-                count++;
-                if(count > 30){
-                    shootLock = false;
-                    count = 0;
-                }
-            }
+    private void shoot() {
+        if (inputManager.xPressed && !this.shootLock) {
+            PlayerBullet newBullet = new PlayerBullet((int)this.position.x,(int)this.position.y);
+            this.bullets.add(newBullet);
+            this.shootLock = true;
+        }
     }
 }

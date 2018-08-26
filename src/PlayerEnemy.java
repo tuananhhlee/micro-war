@@ -1,21 +1,25 @@
 import java.awt.*;
 
 public class PlayerEnemy {
-    int x;
-    int y;
     Image image;
+    Vector2D position;
 
     PlayerEnemy(int x, int y){
-        this.x = x;
-        this.y = y;
         this.image = ImageUtil.load("images/enemy/bacteria/bacteria1.png");
+        this.position = new Vector2D(x,y);
     }
 
     public void render(Graphics g) {
-        g.drawImage(this.image,this.x, this.y, null);
+        g.drawImage(this.image,(int)this.position.x, (int)this.position.y, null);
     }
 
     public void run() {
-        this.y +=3;
+        this.move();
+    }
+
+    private void move() {
+        Vector2D velocity = new Vector2D();
+        velocity.y +=3;
+        this.position.addUp(velocity);
     }
 }
