@@ -1,6 +1,8 @@
+package bases;
+
 public class Vector2D {
-    float x;
-    float y;
+    public float x;
+    public float y;
 
     public Vector2D( float x, float y ){
         this.x = x;
@@ -16,7 +18,7 @@ public class Vector2D {
         this.x += x;
         this.y += y;
     }
-    void addUp (Vector2D other){
+    public void addUp (Vector2D other){
         this.addUp(other.x, other.y );
     }
 
@@ -31,7 +33,7 @@ public class Vector2D {
         Vector2D v1 = new Vector2D(2,3);
 //        v1.print();
 //        v1.addUp(3, 5);
-//        Vector2D v2 = new Vector2D();
+//        bases.Vector2D v2 = new bases.Vector2D();
 //        v2.print();
         Vector2D v3 = v1.add(3,4);
         v3.print();

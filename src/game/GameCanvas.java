@@ -1,12 +1,15 @@
+package game;
 
+import bases.ImageUtil;
+import inputs.InputManager;
+import players.Player;
+import players.PlayerBullet;
+import enemies.PlayerEnemy;
+import enemies.EnemyBullet;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,6 +19,7 @@ public class GameCanvas extends JPanel {
     ArrayList<PlayerBullet> bullets;
     ArrayList<PlayerEnemy> enemies;
     Player player;
+    PlayerEnemy enemy;
     InputManager inputManager;
 
     BufferedImage backBuffer;
@@ -28,8 +32,9 @@ public class GameCanvas extends JPanel {
         random = new Random();
         player = new Player(268, 600);
         player.bullets = this.bullets;
-        inputManager = new InputManager();
-        player.inputManager = inputManager;
+        enemy.enemies = this.enemies;
+       // inputManager = new inputs.InputManager();
+        inputManager = InputManager.instance;
 
         background = ImageUtil.load("images/background/background.png");
         backBuffer = new BufferedImage(600, 800, BufferedImage.TYPE_INT_ARGB);
