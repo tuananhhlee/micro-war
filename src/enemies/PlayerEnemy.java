@@ -1,35 +1,43 @@
 package enemies;
 
-import bases.ImageRenderer;
-import bases.ImageUtil;
-import bases.Vector2D;
-
-
+import bases.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
-public class PlayerEnemy {
-    Image image;
-    Vector2D position;
+public class PlayerEnemy extends GameObject {
     EnemyMove enemyMove;
     EnemyShoot enemyShoot;
     ImageRenderer imageRenderer;
-    public ArrayList<PlayerEnemy> enemies;
+    FrameCounter frameCounter;
+    Random random;
+    public ArrayList<EnemyBullet> enemyBullets;
+
+
 
     public PlayerEnemy(int x, int y){
-        this.image = ImageUtil.load("images/enemy/bacteria/bacteria1.png");
-        this.position = new Vector2D(x,y);
+        super (x,y);
+        this.imageRenderer = new ImageRenderer("images/enemy/bacteria/bacteria1.png");
         this.enemyMove = new EnemyMove();
         this.enemyShoot = new EnemyShoot();
+        random = new Random();
+        enemyBullets = new ArrayList<>();
+        frameCounter = new FrameCounter(100);
+
+
     }
 
     public void render(Graphics g) {
-        imageRenderer.render(g,this.position);
+        super.render(g);
+        for (EnemyBullet e:enemyBullets){
+            e.render(g);
+        }
     }
 
     public void run() {
         this.move();
         this.shoot();
+        super.run();
     }
 
     private void shoot() {
@@ -39,4 +47,5 @@ public class PlayerEnemy {
     private void move() {
         this.enemyMove.run(this.position);
     }
+
 }

@@ -59,7 +59,7 @@ public class Vector2D {
     void subtractBy(Vector2D other){
         this.subtractBy(other.x, other.y );
     }
-    Vector2D subtract (float x, float y){
+    public Vector2D subtract(float x, float y){
         return new Vector2D(this.x - x, this.y -y);
     }
     Vector2D subtract(Vector2D other){

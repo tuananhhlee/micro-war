@@ -1,4 +1,5 @@
 package players;
+import bases.GameObject;
 import bases.Vector2D;
 import inputs.InputManager;
 

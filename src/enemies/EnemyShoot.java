@@ -7,8 +7,8 @@ public class EnemyShoot {
     void run(PlayerEnemy enemy) {
         frameCounter.run();
         if (frameCounter.expired) {
-            PlayerEnemy newBullet = new PlayerEnemy((int)enemy.position.x,(int)enemy.position.y);
-            enemy.enemies.add(newBullet);
+            EnemyBullet newBullet = new EnemyBullet((int)enemy.position.x,(int)enemy.position.y);
+            enemy.enemyBullets.add(newBullet);
             frameCounter.reset();
         }
     }
