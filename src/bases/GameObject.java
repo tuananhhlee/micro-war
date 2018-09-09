@@ -95,5 +95,6 @@ public class GameObject {
 
     public void gameover(){
         this.isAlive=false;
+        System.exit(0);
     }
 }
