@@ -18,7 +18,7 @@ public class Player extends GameObject {
         this.imageRenderer = new ImageRenderer("images/player/MB-69/player1.png");
         this.playerMove = new PlayerMove();
         this.playerShoot = new PlayerShoot();
-        this.boxCollider = new BoxCollider(x,y,50,50);
+        this.boxCollider = new BoxCollider(x,y,60,60);
     }
 
     public void run() {
