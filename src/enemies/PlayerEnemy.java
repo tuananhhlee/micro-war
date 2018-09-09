@@ -1,6 +1,8 @@
 package enemies;
 
 import bases.*;
+import players.Player;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,10 +10,8 @@ import java.util.Random;
 public class PlayerEnemy extends GameObject {
     EnemyMove enemyMove;
     EnemyShoot enemyShoot;
-    ImageRenderer imageRenderer;
     FrameCounter frameCounter;
     Random random;
-    public ArrayList<EnemyBullet> enemyBullets;
 
 
 
@@ -21,24 +21,28 @@ public class PlayerEnemy extends GameObject {
         this.enemyMove = new EnemyMove();
         this.enemyShoot = new EnemyShoot();
         random = new Random();
-        enemyBullets = new ArrayList<>();
         frameCounter = new FrameCounter(100);
-
-
+        this.boxCollider = new BoxCollider(x,y,30,30);
     }
 
-    public void render(Graphics g) {
-        super.render(g);
-        for (EnemyBullet e:enemyBullets){
-            e.render(g);
-        }
-    }
+
 
     public void run() {
         this.move();
         this.shoot();
         super.run();
+        hitPlayer();
     }
+
+    private void hitPlayer() {
+        Player player =GameObject.checkCollisionplayers(this.boxCollider);
+        if(player!=null){
+            System.out.println("Game Over");
+            player.getHit();
+            this.destroy();
+        }
+    }
+
 
     private void shoot() {
         this.enemyShoot.run(this);
@@ -47,5 +51,12 @@ public class PlayerEnemy extends GameObject {
     private void move() {
         this.enemyMove.run(this.position);
     }
+    public void getHit(){
+        this.destroy();
+    }
 
+    @Override
+    public void render(Graphics g) {
+        super.render(g);
+    }
 }

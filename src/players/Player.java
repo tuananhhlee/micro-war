@@ -3,6 +3,7 @@ package players;
 import java.awt.*;
 import java.util.ArrayList;
 
+import bases.BoxCollider;
 import bases.GameObject;
 import bases.ImageRenderer;
 import bases.Vector2D;
@@ -17,6 +18,7 @@ public class Player extends GameObject {
         this.imageRenderer = new ImageRenderer("images/player/MB-69/player1.png");
         this.playerMove = new PlayerMove();
         this.playerShoot = new PlayerShoot();
+        this.boxCollider = new BoxCollider(x,y,50,50);
     }
 
     public void run() {
@@ -31,5 +33,8 @@ public class Player extends GameObject {
 
     private void shoot() {
         this.playerShoot.run(this);
+    }
+    public void getHit(){
+        this.gameover();
     }
 }
