@@ -17,7 +17,13 @@ public class PlayerEnemy extends GameObject {
 
     public PlayerEnemy(int x, int y){
         super (x,y);
-        this.imageRenderer = new ImageRenderer("images/enemy/bacteria/bacteria1.png");
+        //ArrayList<Image> images = new ArrayList<>();
+        this.renderer = new Animation(
+                ImageUtil.load("images/enemy/bacteria/bacteria1.png"),
+                ImageUtil.load("images/enemy/bacteria/bacteria2.png"),
+                ImageUtil.load("images/enemy/bacteria/bacteria3.png")
+        );
+
         this.enemyMove = new EnemyMove();
         this.enemyShoot = new EnemyShoot();
         random = new Random();
@@ -51,7 +57,7 @@ public class PlayerEnemy extends GameObject {
     private void move() {
         this.enemyMove.run(this.position);
     }
-    public void getHit(){
+    public void getHit() {
         this.destroy();
     }
 

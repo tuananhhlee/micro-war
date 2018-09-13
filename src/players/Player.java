@@ -1,12 +1,9 @@
 package players;
 
-import java.awt.*;
-import java.util.ArrayList;
-
 import bases.BoxCollider;
 import bases.GameObject;
 import bases.ImageRenderer;
-import bases.Vector2D;
+import enemies.EBAnimation;
 
 public class Player extends GameObject {
     PlayerMove playerMove;
@@ -15,10 +12,10 @@ public class Player extends GameObject {
 
     public Player(int x, int y) {
         super(x, y);
-        this.imageRenderer = new ImageRenderer("images/player/MB-69/player1.png");
+        this.renderer = new ImageRenderer("images/player/MB-69/player1.png");
         this.playerMove = new PlayerMove();
         this.playerShoot = new PlayerShoot();
-        this.boxCollider = new BoxCollider(x,y,60,60);
+        this.boxCollider = new BoxCollider(x,y,50,50);
     }
 
     public void run() {
@@ -36,5 +33,10 @@ public class Player extends GameObject {
     }
     public void getHit(){
         this.gameover();
+        EBAnimation ebAnimation = new EBAnimation(
+                (int)position.x,
+                (int)position.y
+        );
+        GameObject.add(ebAnimation);
     }
 }

@@ -5,6 +5,8 @@ import bases.GameObject;
 import bases.Vector2D;
 import inputs.InputManager;
 
+import java.awt.*;
+
 public class PlayerShoot {
     private boolean shootLock;
    // int count;
@@ -13,9 +15,9 @@ public class PlayerShoot {
 
     void run(Player player){
         if (InputManager.instance.xPressed && !this.shootLock) {
-            Vector2D bulletPsition = player.position.subtract(0,30);
-            PlayerBullet newBullet = new PlayerBullet((int)bulletPsition.x,(int)bulletPsition.y);
-            GameObject.add(newBullet);
+            Vector2D bulletPosition = player.position.subtract(0,30);
+            //1 try to recycle
+            PlayerBullet newBullet = GameObject.recycle((int)bulletPosition.x,(int)bulletPosition.y);
             this.shootLock = true;
         }
         if(shootLock){

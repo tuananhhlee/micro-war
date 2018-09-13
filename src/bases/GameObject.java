@@ -1,48 +1,112 @@
 package bases;
 
+import enemies.EnemyBullet;
 import enemies.PlayerEnemy;
 import players.Player;
+import players.PlayerBullet;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class GameObject {
     public Vector2D position;
-    public ImageRenderer imageRenderer;
+    public Renderer renderer;
     public boolean isActive;
     public boolean isAlive;
     private static ArrayList<GameObject> gameObjects = new ArrayList<>();
     private static ArrayList<GameObject> newGameObjects = new ArrayList<>();
 
-    public static void add(GameObject g){
+    public static void add(GameObject g) {
         newGameObjects.add(g);
     }
 
-    public static void runAll(){
-        for(GameObject go:gameObjects){
+    public static void runAll() {
+        for (GameObject go : gameObjects) {
             if (go.isActive && go.isAlive)
-            go.run();
+                go.run();
         }
         gameObjects.addAll(newGameObjects);
         newGameObjects.clear();
+        System.out.println(gameObjects.size());
     }
 
-    public static void renderAll(Graphics g){
-        for (GameObject go:gameObjects){
-            if (go.isActive&&go.isAlive)
-            go.render(g);
+    public static void renderAll(Graphics g) {
+        for (GameObject go : gameObjects) {
+            if (go.isActive && go.isAlive)
+                go.render(g);
         }
     }
 
-    public static PlayerEnemy checkCollision(BoxCollider boxCollider) {
-        PlayerEnemy result = null;
+    public static PlayerBullet recycle(int x, int y) {
+        PlayerBullet pb = null;
+        for (GameObject go : gameObjects) {
+            if (!go.isActive) {
+                if (go instanceof PlayerBullet) {
+                    pb = (PlayerBullet) go;
+                }
+            }
+        }
+        if (pb == null) {
+            pb = new PlayerBullet(x, y);
+            GameObject.add(pb);
+        } else {
+            pb.isActive = true;
+            pb.position.x = x;
+            pb.position.y = y;
+        }
+        return pb;
+    }
+
+    public static PlayerEnemy recyclePE(int x, int y) {
+        PlayerEnemy pe = null;
+        for (GameObject go : gameObjects) {
+            if (!go.isActive) {
+                if (go instanceof PlayerEnemy) {
+                    pe = (PlayerEnemy) go;
+                }
+            }
+        }
+        if (pe == null) {
+            pe = new PlayerEnemy(x, y);
+            GameObject.add(pe);
+        } else {
+            pe.isActive = true;
+            pe.position.x = x;
+            pe.position.y = y;
+        }
+        return pe;
+    }
+
+    public static EnemyBullet recycleEB(int x, int y){
+        EnemyBullet eb = null;
+        for (GameObject go:gameObjects){
+            if (!go.isActive){
+                if (go instanceof  EnemyBullet){
+                    eb = (EnemyBullet)go;
+                }
+            }
+        }
+        if (eb ==null){
+            eb = new EnemyBullet(x,y);
+            GameObject.add(eb);
+        }
+        else {
+            eb.isActive =true;
+            eb.position.x = x;
+            eb.position.y = y;
+        }
+        return eb;
+    }
+
+    //Generics: tổng quát kiểu
+    public static <T extends GameObject> T checkCollision(BoxCollider boxCollider,Class<T> cls) {
+        T result = null;
         for (GameObject go : gameObjects) {
             if (go.isActive&&go.boxCollider!=null) {
-                if (go instanceof PlayerEnemy) {
+                if (go.getClass().equals(cls)) {
                     if (go.boxCollider.collideWith(boxCollider)){
-                        result =(PlayerEnemy)go;
+                        result =(T)go;
                     }
-
                 }
             }
         }
@@ -67,7 +131,7 @@ public class GameObject {
 
     public GameObject(int x, int y ){
         this.position = new Vector2D(x,y);
-        this.imageRenderer = null;
+        this.renderer = null;
         this.boxCollider = null;
         this.isActive = true;
         this.isAlive=true;
@@ -81,8 +145,8 @@ public class GameObject {
     }
 
     public void render(Graphics g){
-        if(this.imageRenderer != null){
-            this.imageRenderer.render(g,this.position);
+        if(this.renderer != null){
+            this.renderer.render(g,this.position);
         }
 
         if (this.boxCollider!=null){
